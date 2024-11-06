@@ -104,7 +104,6 @@ public class Main {
                     }
                 }
 
-// Replace chosenSongs with the filtered list without duplicates
                 chosenSongs.clear();
                 chosenSongs.addAll(nonDuplicateSongs);
 
@@ -135,7 +134,6 @@ public class Main {
                 }
 
                 for (Songs song : chosenSongs) {
-                    // Get the song name in lowercase, trimmed form to handle case insensitivity and extra spaces
                     String artistName = song.getArtist().trim().toLowerCase();
 
                     // Add to nonDuplicateSongs only if the name is unique
@@ -215,7 +213,7 @@ public class Main {
                     if ((song.getDuration()/60) == givenDuration) {
                         chosenSongs.add(song);
                     }
-                }
+                } // TODO Add default case
 
                 if (chosenSongs.size() == 1) {
                     print("The only song that is " + givenDuration + " minutes long is " + chosenSongs.getFirst().getSong() + " by " +
@@ -253,7 +251,7 @@ public class Main {
         print("Total Number of Songs:" + totalNumSongs);
     }
 
-    public static void genrePlaylist() {
+    public static List<Songs> genrePlaylist() {
         List<String> genres = new ArrayList<>();
         List<Songs> songGenres = new ArrayList<>();
 
@@ -315,15 +313,74 @@ public class Main {
             }
         }
 
-        print("Here's your playlist with your chosen genres!: ");
-
-        for (Songs song : songGenres) {
-            print(song.getSong() + " by " + song.getArtist() + " (" + song.getGenre() + ")" + " - Take a listen at " + song.link());
-        }
+        return songGenres;
     }
 
     public static void durationPlaylist() {
+        List<Songs> toilet;
+        List<Songs> sideOne = new ArrayList<>();
+        List<Songs> sideTwo = new ArrayList<>();
 
+        print("Please select one of the following!");
+        print("[1] Based on 'Classic Mixtape' Lengths");
+        print("[2] Custom Length");
+
+        scanner.nextLine();
+
+        int input = scanner.nextInt();
+
+        switch (input) {
+            case 1:
+                print("The 'average' mixtape is ~60 minutes (30 minutes per side). However, given the total length of the mixtape is 79 minutes, we'll make each side 15 minutes.");
+                print("Do you have a preference for the genres? (Y/N)");
+                scanner.nextLine();
+                String skibidi = scanner.nextLine();
+                if (skibidi.equalsIgnoreCase("Y")) {
+                    toilet = genrePlaylist();
+                }
+                else {
+                    toilet = songs;
+                }
+
+                int sideOneSum = 0;
+                int sideTwoSum = 0;
+
+
+                // TODO fix this this isnt adding the songs right
+                for (int i = 0; i < toilet.size(); i++) {
+                    while (sideOneSum / 60 <= 15) {
+                        sideOne.add(toilet.get(i));
+                        sideOneSum += toilet.get(i).getDuration();
+                    }
+                    if (sideOneSum / 60 >= 15) {
+                        while (sideTwoSum / 60 <= 15) {
+                            sideTwo.add(toilet.get(i));
+                            sideTwoSum += toilet.get(i).getDuration();
+                        }
+                    }
+                }
+
+                // debug statements
+                print(String.valueOf(sideOne) + sideOneSum);
+
+                print(String.valueOf(sideTwo) + sideTwoSum);
+
+                print(toilet.toString());
+
+//                print("Side One: ");
+//                for (Songs song : sideOne) {
+//                    print(song.getSong() + " by " + song.getArtist() + " - " + song.link());
+//                }
+//
+//                print("Side Two: ");
+//                for (Songs song : sideTwo) {
+//                    print(song.getSong() + " by " + song.getArtist() + " - " + song.link());
+//                }
+
+
+
+
+        } // TODO Add default case
     }
 
     public static void main(String[] args) {
@@ -345,7 +402,13 @@ public class Main {
                 totalSongs();
                 break;
             case 5:
-                genrePlaylist();
+                List<Songs> values = genrePlaylist();
+
+                print("Here's your playlist with your chosen genres!: ");
+
+                for (Songs song : values) {
+                    print(song.getSong() + " by " + song.getArtist() + " (" + song.getGenre() + ")" + " - Take a listen at " + song.link());
+                }
                 break;
             case 6:
                 durationPlaylist();
@@ -353,6 +416,7 @@ public class Main {
             case 7:
                 System.exit(0);
         }
+        // TODO add default case
 
         totalSongs();
         getTime();

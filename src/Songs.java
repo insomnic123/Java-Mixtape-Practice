@@ -34,6 +34,7 @@ public class Songs {
 
     @Override
     public String toString() {
-        return ("Submitted by: " + name + ", the song is: " + song + " by " + artist + " released in the year " + year + ". It's a " + genre + " song, coming in at " + duration + " seconds long. Take a listen at: " + link );
+//        return ("Submitted by: " + name + ", the song is: " + song + " by " + artist + " released in the year " + year + ". It's a " + genre + " song, coming in at " + duration + " seconds long. Take a listen at: " + link );
+        return ("Song: " + song + " | Artist" + artist);
     }
 }
