@@ -3,6 +3,13 @@ import java.io.*;
 
 public class Main {
 
+    // Colours from https://www.mymiller.name/wordpress/java/ansi-colors/
+    public static final String RESET = "\u001B[0m";
+    public static final String BRIGHT_RED = "\u001B[31;1m";
+    public static final String BRIGHT_BLUE = "\u001B[34;1m";
+    public static final String BRIGHT_MAGENTA = "\u001B[35;1m";
+    public static final String BRIGHT_WHITE = "\u001B[37;1m";
+
     static List<Songs> songs = new ArrayList<>();
     static int totalTime = 0;
     static int totalNumSongs = 0;
@@ -13,15 +20,30 @@ public class Main {
     }
 
     public static int startMenu() {
-        print("[1] View All Songs");
-        print("[2] Find a Song");
-        print("[3] Total Duration");
-        print("[4] Total Number of Songs");
-        print("[5] Make a Genre-based Playlist");
-        print("[6] Make a Time-based Playlist");
-        print("[7] Quit");
+        print(BRIGHT_WHITE + "Please select one of the following!" + RESET);
+        print(BRIGHT_BLUE + "[1] View All Songs" + RESET);
+        print(BRIGHT_MAGENTA + "[2] Find a Song" + RESET);
+        print(BRIGHT_BLUE + "[3] Total Duration" + RESET);
+        print(BRIGHT_BLUE + "[4] Total Number of Songs" + RESET);
+        print(BRIGHT_MAGENTA + "[5] Make a Genre-based Playlist" + RESET);
+        print(BRIGHT_MAGENTA + "[6] Make a Time-based Playlist" + RESET);
+        print(BRIGHT_RED + "[7] Quit" + RESET);
 
-        return scanner.nextInt();
+        boolean validInput = false;
+        int input = 0;
+
+
+        while(!validInput) {
+            try{
+                input = scanner.nextInt();
+                validInput = true;
+                return input;
+            } catch (InputMismatchException e) {
+                print("Invalid input!");
+                scanner.nextLine();
+            }
+        }
+        return(1);
     }
 
     public static void processData(String filePath) {
@@ -352,15 +374,19 @@ public class Main {
                     toilet = songs;
                 }
 
-                for (int i = 0; sideOneSum / 60 < 15; i++) {
-                    sideOne.add(toilet.get(i));
-                    sideOneSum += toilet.get(i).getDuration();
-                    index = i;
-                }
+                try {
+                    for (int i = 0; sideOneSum / 60 < 15; i++) {
+                        sideOne.add(toilet.get(i));
+                        sideOneSum += toilet.get(i).getDuration();
+                        index = i;
+                    }
 
-                for (; sideTwoSum / 60 < 15; index++) {
-                    sideTwo.add(toilet.get(index));
-                    sideTwoSum += toilet.get(index).getDuration();
+                    for (; sideTwoSum / 60 < 15; index++) {
+                        sideTwo.add(toilet.get(index));
+                        sideTwoSum += toilet.get(index).getDuration();
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    print("Not enough songs! Creating a mixtape from what's possible...");
                 }
 
                 print("Side One: ");
@@ -398,15 +424,19 @@ public class Main {
                 int sideOneTime = time / 2;
                 int sideTwoTime = time / 2;
 
-                for (int i = 0; sideOneSum / 60 < sideOneTime; i++) {
-                    sideOne.add(toilet.get(i));
-                    sideOneSum += toilet.get(i).getDuration();
-                    index = i;
-                }
+                try {
+                    for (int i = 0; sideOneSum / 60 < sideOneTime; i++) {
+                        sideOne.add(toilet.get(i));
+                        sideOneSum += toilet.get(i).getDuration();
+                        index = i;
+                    }
 
-                for (; sideTwoSum / 60 < sideTwoTime; index++) {
-                    sideTwo.add(toilet.get(index));
-                    sideTwoSum += toilet.get(index).getDuration();
+                    for (; sideTwoSum / 60 < sideTwoTime; index++) {
+                        sideTwo.add(toilet.get(index));
+                        sideTwoSum += toilet.get(index).getDuration();
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    print("Not enough songs! Creating a mixtape from what's possible...");
                 }
 
                 print("Side One: ");
@@ -428,48 +458,58 @@ public class Main {
                     input = scanner.nextInt();
                 }
         }
-
-
     }
 
     public static void main(String[] args) {
         processData("C:\\Users\\qazia\\Desktop\\CS12\\Java Mixtape Practice\\src\\songs.csv");
 
+        boolean validInput = false;
         int choice = startMenu();
+        while(!validInput) {
+            try {
+                switch (choice) {
+                    case 1:
+                        validInput = true;
+                        viewAll();
+                        break;
+                    case 2:
+                        validInput = true;
+                        findSong();
+                        break;
+                    case 3:
+                        validInput = true;
+                        getTime();
+                        break;
+                    case 4:
+                        validInput = true;
+                        totalSongs();
+                        break;
+                    case 5:
+                        validInput = true;
+                        List<Songs> values = genrePlaylist();
 
-        switch (choice) {
-            case 1:
-                viewAll();
-                break;
-            case 2:
-                findSong();
-                break;
-            case 3:
-                getTime();
-                break;
-            case 4:
-                totalSongs();
-                break;
-            case 5:
-                List<Songs> values = genrePlaylist();
+                        print("Here's your playlist with your chosen genres!: ");
 
-                print("Here's your playlist with your chosen genres!: ");
+                        for (Songs song : values) {
+                            print(song.getSong() + " by " + song.getArtist() + " (" + song.getGenre() + ")" + " - Take a listen at " + song.link());
+                        }
+                        break;
+                    case 6:
+                        validInput = true;
+                        durationPlaylist();
+                        break;
+                    case 7:
+                        System.exit(0);
 
-                for (Songs song : values) {
-                    print(song.getSong() + " by " + song.getArtist() + " (" + song.getGenre() + ")" + " - Take a listen at " + song.link());
+                    default:
+                        while (choice < 1 || choice > 7) {
+                            print("Invalid input, please try again!");
+                            choice = scanner.nextInt();
+                        }
                 }
-                break;
-            case 6:
-                durationPlaylist();
-                break;
-            case 7:
-                System.exit(0);
-
-            default:
-                while (choice < 1 || choice > 7) {
-                    print("Invalid input, please try again!");
-                    choice = scanner.nextInt();
-                }
+            } catch (InputMismatchException e) {
+                print("Invalid Input!");
+            }
         }
     }
 }
