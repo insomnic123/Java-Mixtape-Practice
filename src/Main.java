@@ -8,11 +8,11 @@ public class Main {
     static int totalNumSongs = 0;
     static Scanner scanner = new Scanner(System.in);
 
-    public static void print(String msg){
+    public static void print(String msg) {
         System.out.println(msg);
     }
 
-    public static int startMenu(){
+    public static int startMenu() {
         print("[1] View All Songs");
         print("[2] Find a Song");
         print("[3] Total Duration");
@@ -35,12 +35,11 @@ public class Main {
                 print("File size in bytes " + myFile.length());
                 // if the first line is a header print it out:
                 print("Header: " + scnr.nextLine());
-            }
-            else {
+            } else {
                 print("The file does not exist.");
             }
 
-            if(!scnr.hasNext()){
+            if (!scnr.hasNext()) {
                 print("Error: File is empty");
             }
 
@@ -68,7 +67,7 @@ public class Main {
         }
     }
 
-    public static void findSong(){
+    public static void findSong() {
         print("[1] Find by User");
         print("[2] Find by Song Name");
         print("[3] Find by Artist");
@@ -79,7 +78,7 @@ public class Main {
         Set<String> uniqueSongNames = new HashSet<>();
         List<Songs> nonDuplicateSongs = new ArrayList<>();
 
-        switch (choice){
+        switch (choice) {
             case 1:
                 print("Please enter the person's name: ");
                 scanner.nextLine();
@@ -117,7 +116,7 @@ public class Main {
                 if (chosenSongs.size() > 1) {
                     print(name + " submitted " + chosenSongs.size() + " songs! They submitted: ");
 
-                    for (Songs song:chosenSongs) {
+                    for (Songs song : chosenSongs) {
                         print(song.getSong() + " by " + song.getArtist() + ". Take a listen at: " + song.link());
                     }
                 }
@@ -149,10 +148,10 @@ public class Main {
 
                     if (response.equalsIgnoreCase("Y")) {
                         print("Here's the link! " + chosenSongs.getFirst().link());
+                    } else {
+                        print("I don't have the song you're looking for, sorry!");
                     }
-                    else {print("I don't have the song you're looking for, sorry!");}
-                }
-                else {
+                } else {
                     print("Song not found, Sorry!");
                 }
                 return;
@@ -169,7 +168,7 @@ public class Main {
 
                 if (chosenSongs.size() == 1) {
                     print("On the mixtape, " + artistName + " has made the song " + chosenSongs.getFirst().getSong()
-                    + ". Play it here at: " + chosenSongs.getFirst().link());
+                            + ". Play it here at: " + chosenSongs.getFirst().link());
                 }
                 if (chosenSongs.size() > 1) {
                     print(artistName + " has several songs on the playlist! These are: ");
@@ -212,22 +211,22 @@ public class Main {
                 int givenDuration = scanner.nextInt();
 
                 for (Songs song : songs) {
-                    if ((song.getDuration()/60) == givenDuration) {
+                    if ((song.getDuration() / 60) == givenDuration) {
                         chosenSongs.add(song);
                     }
                 }
 
                 if (chosenSongs.size() == 1) {
                     print("The only song that is " + givenDuration + " minutes long is " + chosenSongs.getFirst().getSong() + " by " +
-                            chosenSongs.getFirst().getArtist() + ", which comes in at " + (chosenSongs.getFirst().getDuration()/60) + " minutes and " +
-                            (chosenSongs.getFirst().getDuration()%60) + " seconds. Take a listen at: " + chosenSongs.getFirst().link());
+                            chosenSongs.getFirst().getArtist() + ", which comes in at " + (chosenSongs.getFirst().getDuration() / 60) + " minutes and " +
+                            (chosenSongs.getFirst().getDuration() % 60) + " seconds. Take a listen at: " + chosenSongs.getFirst().link());
                 }
                 if (chosenSongs.size() > 1) {
                     print("Multiple songs are " + givenDuration + " minutes long! These are: ");
 
                     for (Songs song : chosenSongs) {
-                        print(song.getSong() + " by " + song.getArtist() + "(" + (song.getDuration()/60) + " minutes and " +
-                                (song.getDuration()%60) + " seconds) | " + song.link());
+                        print(song.getSong() + " by " + song.getArtist() + "(" + (song.getDuration() / 60) + " minutes and " +
+                                (song.getDuration() % 60) + " seconds) | " + song.link());
                     }
                 }
                 if (chosenSongs.isEmpty()) {
@@ -244,19 +243,19 @@ public class Main {
 
     }
 
-    public static void getTime(){
-        var minutes = totalTime /60;
+    public static void getTime() {
+        var minutes = totalTime / 60;
         var seconds = totalTime % 60;
         System.out.printf("The total length of the playlist is: %d minutes and %d seconds", minutes, seconds);
     }
 
-    public static void viewAll(){
-        for (Songs song : songs){
+    public static void viewAll() {
+        for (Songs song : songs) {
             print(String.valueOf(song));
         }
     }
 
-    public static void totalSongs(){
+    public static void totalSongs() {
         print("Total Number of Songs: " + totalNumSongs);
     }
 
@@ -349,8 +348,7 @@ public class Main {
                 String skibidi = scanner.nextLine();
                 if (skibidi.equalsIgnoreCase("Y")) {
                     toilet = genrePlaylist();
-                }
-                else {
+                } else {
                     toilet = songs;
                 }
 
@@ -360,7 +358,7 @@ public class Main {
                     index = i;
                 }
 
-                for (int i = index; sideTwoSum / 60 < 15; index++) {
+                for (; sideTwoSum / 60 < 15; index++) {
                     sideTwo.add(toilet.get(index));
                     sideTwoSum += toilet.get(index).getDuration();
                 }
@@ -369,21 +367,21 @@ public class Main {
                 for (Songs song : sideOne) {
                     print(song.getSong() + " by " + song.getArtist() + " - " + song.link() + " (" + song.getGenre() + ")");
                 }
-                print("Total Time: " + String.valueOf(sideOneSum / 60) + " minutes and " + String.valueOf(sideOneSum % 60) + " seconds.");
+                print("Total Time: " + sideOneSum / 60 + " minutes and " + sideOneSum % 60 + " seconds.");
 
 
                 print("Side Two: ");
                 for (Songs song : sideTwo) {
                     print(song.getSong() + " by " + song.getArtist() + " - " + song.link() + " (" + song.getGenre() + ")");
                 }
-                print("Total Time: " + String.valueOf(sideTwoSum / 60) + " minutes and " + String.valueOf(sideTwoSum % 60) + " seconds.");
+                print("Total Time: " + sideTwoSum / 60 + " minutes and " + sideTwoSum % 60 + " seconds.");
 
             case 2:
                 print("How long do you want your mixtape to be in minutes?");
                 scanner.nextLine();
                 int time = scanner.nextInt();
 
-                while (time > 60 || time < 7){
+                while (time > 60 || time < 7) {
                     print("Invalid! Please try again.");
                     time = scanner.nextInt();
                 }
@@ -393,8 +391,7 @@ public class Main {
                 String temp = scanner.nextLine();
                 if (temp.equalsIgnoreCase("Y")) {
                     toilet = genrePlaylist();
-                }
-                else {
+                } else {
                     toilet = songs;
                 }
 
@@ -407,7 +404,7 @@ public class Main {
                     index = i;
                 }
 
-                for (int i = index; sideTwoSum / 60 < sideTwoTime; index++) {
+                for (; sideTwoSum / 60 < sideTwoTime; index++) {
                     sideTwo.add(toilet.get(index));
                     sideTwoSum += toilet.get(index).getDuration();
                 }
@@ -416,14 +413,14 @@ public class Main {
                 for (Songs song : sideOne) {
                     print(song.getSong() + " by " + song.getArtist() + " - " + song.link() + " (" + song.getGenre() + ")");
                 }
-                print("Total Time: " + String.valueOf(sideOneSum / 60) + " minutes and " + String.valueOf(sideOneSum % 60) + " seconds.");
+                print("Total Time: " + sideOneSum / 60 + " minutes and " + sideOneSum % 60 + " seconds.");
 
 
                 print("Side Two: ");
                 for (Songs song : sideTwo) {
                     print(song.getSong() + " by " + song.getArtist() + " - " + song.link() + " (" + song.getGenre() + ")");
                 }
-                print("Total Time: " + String.valueOf(sideTwoSum / 60) + " minutes and " + String.valueOf(sideTwoSum % 60) + " seconds.");
+                print("Total Time: " + sideTwoSum / 60 + " minutes and " + sideTwoSum % 60 + " seconds.");
 
             default:
                 while (input > 2 || input < 1) {
