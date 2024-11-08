@@ -1,0 +1,8 @@
+HELLO Okay so here are a few notes for this mini-assignment:
+1. Unfortunately I was unable to develop this to the full extent I wanted to, with options to return to menu and whatnot.
+This is partly due to time restrictions but also considering how this is a relatively minor assignment and the payoff didn't feel
+worthwhile.
+
+2. A lot of the main methods could be placed in the Songs class, with similar syntax and such. The reason I opted to do it in
+the main class instead of songs was because it felt more familiar and helped with my logic and reasoning. However, I could
+recreate it in the Songs class if asked.
